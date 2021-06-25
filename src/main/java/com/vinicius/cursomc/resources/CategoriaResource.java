@@ -22,7 +22,7 @@ public class CategoriaResource {
 	//Configurando para o ID da URL passar para a váriavel Id
 	public ResponseEntity<?> find(@PathVariable Integer id) {
 		//Declarando objeto para utilizar o metodo buscar da CategoriaService, passando o Id.
-		Categoria obj = service.buscar(id);
+		Categoria obj = service.find(id);
 		
 		//Retornando que a operação ocorreu com sucesso, retornando o objeto obj que criamos.
 		return ResponseEntity.ok().body(obj);

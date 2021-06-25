@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 //@ Entity define no mapeamento que a classe será uma entidade, para a criação de uma tabela no banco.
 @Entity
 public class Categoria implements Serializable{
@@ -22,6 +24,7 @@ public class Categoria implements Serializable{
 	private Integer id; 
 	private String nome;
 	
+	@JsonManagedReference // Referencia gerenciadada pelo JSON, para proteção de referencia ciclica
 	@ManyToMany(mappedBy="categorias")//Define que esse mapeamento é do outro lado(produtos) que foi feito em cima do atributo categorias.
 	//Declarando a associação da categoria com produtos
 	private List<Produto> produtos = new ArrayList<>();
