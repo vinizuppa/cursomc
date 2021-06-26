@@ -9,10 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.vinicius.cursomc.domain.Categoria;
 import com.vinicius.cursomc.domain.Cidade;
+import com.vinicius.cursomc.domain.Cliente;
+import com.vinicius.cursomc.domain.Endereco;
 import com.vinicius.cursomc.domain.Estado;
 import com.vinicius.cursomc.domain.Produto;
+import com.vinicius.cursomc.domain.enums.TipoCliente;
 import com.vinicius.cursomc.repositories.CategoriaRepository;
 import com.vinicius.cursomc.repositories.CidadeRepository;
+import com.vinicius.cursomc.repositories.ClienteRepository;
+import com.vinicius.cursomc.repositories.EnderecoRepository;
 import com.vinicius.cursomc.repositories.EstadoRepository;
 import com.vinicius.cursomc.repositories.ProdutoRepository;
 
@@ -29,6 +34,12 @@ public class CursomcApplication implements CommandLineRunner{
 	
 	@Autowired
 	private CidadeRepository cidadeRepository;
+	
+	@Autowired
+	private ClienteRepository clienteRepository;
+	
+	@Autowired
+	private EnderecoRepository enderecoRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -80,6 +91,25 @@ public class CursomcApplication implements CommandLineRunner{
 		
 		//Salvando Cidades no banco
 		cidadeRepository.saveAll(Arrays.asList(c1,c2,c3));
+		
+		//-----------------------------------------------------//
+		//Instanciando 1 Cliente
+		Cliente cli1 = new Cliente (null, "Maria Silva", "maria@gmail.com", "36378912377", TipoCliente.PESSOAFISICA);
+		cli1.getTelefones().addAll(Arrays.asList("27363323", "93838393"));//Instanciando 2 Telefones
+		
+		//Instanciando 2 endereços
+		Endereco e1 = new Endereco (null, "Rua Flores", "300", "Apto 203", "Jardim", "38220834", cli1, c1);
+		Endereco e2 = new Endereco (null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", cli1, c2);
+		
+		//Indicando qual os endereços do cliente
+		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+		
+		//Salvando cliente no banco
+		clienteRepository.saveAll(Arrays.asList(cli1));
+		
+		//Salvando endereços no banco
+		enderecoRepository.saveAll(Arrays.asList(e1, e2));
+		
 	}
 
 	
