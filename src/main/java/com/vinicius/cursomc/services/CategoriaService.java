@@ -20,8 +20,7 @@ public class CategoriaService {
 		//essa operação acessa o banco de dados, busca uma categoria com o ID passado, e retorna o objeto pronto, caso não encontre, retorna null
 		public Categoria find(Integer id) {
 			Optional<Categoria> obj = repo.findById(id);
-			return obj.orElseThrow(() -> new ObjectNotFoundException(
-			"Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName()));
+			return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName()));
 			}
 
 	
