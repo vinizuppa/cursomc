@@ -3,6 +3,7 @@ package com.vinicius.cursomc;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -13,6 +14,7 @@ import com.vinicius.cursomc.domain.Cidade;
 import com.vinicius.cursomc.domain.Cliente;
 import com.vinicius.cursomc.domain.Endereco;
 import com.vinicius.cursomc.domain.Estado;
+import com.vinicius.cursomc.domain.ItemPedido;
 import com.vinicius.cursomc.domain.Pagamento;
 import com.vinicius.cursomc.domain.PagamentoComBoleto;
 import com.vinicius.cursomc.domain.PagamentoComCartao;
@@ -25,6 +27,7 @@ import com.vinicius.cursomc.repositories.CidadeRepository;
 import com.vinicius.cursomc.repositories.ClienteRepository;
 import com.vinicius.cursomc.repositories.EnderecoRepository;
 import com.vinicius.cursomc.repositories.EstadoRepository;
+import com.vinicius.cursomc.repositories.ItemPedidoRepository;
 import com.vinicius.cursomc.repositories.PagamentoRepository;
 import com.vinicius.cursomc.repositories.PedidoRepository;
 import com.vinicius.cursomc.repositories.ProdutoRepository;
@@ -54,6 +57,9 @@ public class CursomcApplication implements CommandLineRunner{
 	
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+	
+	@Autowired
+	private ItemPedidoRepository itempedidoRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -141,6 +147,21 @@ public class CursomcApplication implements CommandLineRunner{
 		//Salvando pedidos e pagamentos no banco
 		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
 		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
+		
+		//Instanciando 3 itens de pedido
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800);
+		
+		ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+		
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+		
+		//Salvando Itens de pedido no banco
+		itempedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
 	}
 
 	

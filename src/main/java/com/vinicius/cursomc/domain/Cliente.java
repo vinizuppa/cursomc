@@ -9,6 +9,8 @@ import java.util.Set;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,7 +29,8 @@ public class Cliente implements Serializable{
 	private String nome;
 	private String email;
 	private String cpfOuCnpj;
-	private Integer tipo;
+	@Enumerated(EnumType.STRING)
+	private TipoCliente tipo;
 	
 	@JsonManagedReference
 	@OneToMany(mappedBy = "cliente")
@@ -51,7 +54,7 @@ public class Cliente implements Serializable{
 		this.nome = nome;
 		this.email = email;
 		this.cpfOuCnpj = cpfOuCnpj;
-		this.tipo = tipo.getCod();
+		this.tipo = tipo;
 	}
 
 	public Integer getId() {
@@ -87,11 +90,11 @@ public class Cliente implements Serializable{
 	}
 
 	public TipoCliente getTipo() {
-		return TipoCliente.toEnum(tipo);
+		return tipo;
 	}
 
 	public void setTipo(TipoCliente tipo) {
-		this.tipo = tipo.getCod();
+		this.tipo = tipo;
 	}
 
 	public List<Endereco> getEnderecos() {
