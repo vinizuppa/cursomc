@@ -15,6 +15,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 @Entity
 public class Pedido  implements Serializable{
@@ -23,11 +26,15 @@ public class Pedido  implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
 	private Date instante;
 	
+	@JsonManagedReference
 	@OneToOne(cascade=CascadeType.ALL, mappedBy = "pedido")//Peculiaridade para não dar erro quando for salvar pedido
 	private Pagamento pagamento;
 	
+	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name="cliente_id")
 	private Cliente cliente;
@@ -35,6 +42,7 @@ public class Pedido  implements Serializable{
 	@ManyToOne
 	@JoinColumn(name="endereco_de_entrega_id")//Associação direcional.
 	private Endereco enderecoDeEntrega;
+	
 	
 	@OneToMany(mappedBy = "id.pedido")//Por ter uma classe auxiliar para criar a chave composta do pedido(que é a ItemPedidoPK), é necessário usar esse id.pedido
 	private Set<ItemPedido> itens = new HashSet<>();
@@ -83,6 +91,15 @@ public class Pedido  implements Serializable{
 		this.itens = itens;
 	}
 	
+	
+
+	public Endereco getEnderecoDeEntrega() {
+		return enderecoDeEntrega;
+	}
+
+	public void setEnderecoDeEntrega(Endereco enderecoDeEntrega) {
+		this.enderecoDeEntrega = enderecoDeEntrega;
+	}
 
 	@Override
 	public int hashCode() {

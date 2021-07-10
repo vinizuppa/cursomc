@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 public class ItemPedido implements Serializable{
@@ -12,8 +14,9 @@ public class ItemPedido implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
-	//Definindo que essa classe tem como ID o ItemPedidoPK
-	@EmbeddedId
+	
+	@JsonIgnore //Definindo para não serializar o ItemPedido
+	@EmbeddedId //Definindo que essa classe tem como ID o ItemPedidoPK
 	private ItemPedidoPK id = new ItemPedidoPK();
 	
 	private Double desconto;
@@ -33,6 +36,7 @@ public class ItemPedido implements Serializable{
 		this.preco = preco;
 	}
 
+	@JsonIgnore //Para não serializar e ocorrer a referencia ciclica
 	//Para ter acesso direto a pedido fora da classe
 	public Pedido getPedido() {
 		return id.getPedido();
