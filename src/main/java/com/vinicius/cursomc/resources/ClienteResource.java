@@ -20,7 +20,7 @@ public class ClienteResource {
 	//Configurando para o End-Point ser /cliente/id
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	//Configurando para o ID da URL passar para a váriavel Id
-	public ResponseEntity<?> find(@PathVariable Integer id) {
+	public ResponseEntity<Cliente> find(@PathVariable Integer id) {
 		//Declarando objeto para utilizar o metodo buscar da ClienteService, passando o Id.
 		Cliente obj = service.find(id);
 		

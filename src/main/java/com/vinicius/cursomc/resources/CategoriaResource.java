@@ -24,7 +24,7 @@ public class CategoriaResource {
 	//Configurando para o End-Point ser /categoria/id
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	//Configurando para o ID da URL passar para a váriavel Id
-	public ResponseEntity<?> find(@PathVariable Integer id) {
+	public ResponseEntity<Categoria> find(@PathVariable Integer id) {
 		//Declarando objeto para utilizar o metodo buscar da CategoriaService, passando o Id.
 		Categoria obj = service.find(id);
 		
@@ -38,5 +38,13 @@ public class CategoriaResource {
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();//Chamada que pega a URI do novo recurso que foi add no banco
 		return ResponseEntity.created(uri).build();
+	}
+	
+	//Configurando o metodo PUT para categoria
+	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
+	public ResponseEntity<Void> update(@RequestBody Categoria obj, @PathVariable Integer id){ //Como no Put precisamos trazer os dados e depois salvar, utilizamos o RequestBody e PathVariable
+		obj.setId(id);
+		obj = service.update(obj);
+		return ResponseEntity.noContent().build();
 	}
 }

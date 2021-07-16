@@ -28,4 +28,10 @@ public class CategoriaService {
 			obj.setId(null);
 			return repo.save(obj);
 		}
+		
+	//Criando uma operação para	atualizar categoria
+		public Categoria update(Categoria obj) {
+			find(obj.getId()); //Chamando o metodo find para buscar o objeto no banco, e caso o Id já exista, lança uma exceção.
+			return repo.save(obj);
+		}
 }

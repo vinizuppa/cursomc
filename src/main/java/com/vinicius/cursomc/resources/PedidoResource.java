@@ -20,7 +20,7 @@ public class PedidoResource {
 	//Configurando para o End-Point ser /pedido/id
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	//Configurando para o ID da URL passar para a váriavel Id
-	public ResponseEntity<?> find(@PathVariable Integer id) {
+	public ResponseEntity<Pedido> find(@PathVariable Integer id) {
 		//Declarando objeto para utilizar o metodo buscar da PedidoService, passando o Id.
 		Pedido obj = service.find(id);
 		
