@@ -3,10 +3,12 @@ package com.vinicius.cursomc.services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.vinicius.cursomc.domain.Categoria;
 import com.vinicius.cursomc.repositories.CategoriaRepository;
+import com.vinicius.cursomc.services.exceptions.DataIntegrityException;
 import com.vinicius.cursomc.services.exceptions.ObjectNotFoundException;
 
 //@Service é a anotação para indicar que esse é um service
@@ -33,5 +35,19 @@ public class CategoriaService {
 		public Categoria update(Categoria obj) {
 			find(obj.getId()); //Chamando o metodo find para buscar o objeto no banco, e caso o Id já exista, lança uma exceção.
 			return repo.save(obj);
+		}
+		
+	//Criando uma operação para	deletar categoria
+		public void delete(Integer id) {
+			find(id);
+			
+			//Tratando para ser abortado a operação de delete, quando tiver 1 ou mais produtos cadastrados para a categoria
+			try {
+				repo.deleteById(id);
+			}
+			catch (DataIntegrityViolationException e){
+				throw new DataIntegrityException("Não é possível excluir uma categoria que possui produtos");
+			}
+			
 		}
 }

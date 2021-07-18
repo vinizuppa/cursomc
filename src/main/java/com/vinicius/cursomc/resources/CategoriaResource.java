@@ -47,4 +47,12 @@ public class CategoriaResource {
 		obj = service.update(obj);
 		return ResponseEntity.noContent().build();
 	}
+	
+	//Configurando o metodo DELETE para categoria
+	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+	//Configurando para o ID da URL passar para a váriavel Id
+	public ResponseEntity<Void> delete(@PathVariable Integer id) {
+		service.delete(id);
+		return ResponseEntity.noContent().build();
+	}	
 }
