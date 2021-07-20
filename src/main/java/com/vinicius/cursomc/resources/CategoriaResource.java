@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +41,8 @@ public class CategoriaResource {
 	
 	//Configurando o metodo POST para categoria
 	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<Void> insert(@RequestBody Categoria obj){ //O @RequestBody faz o JSON ser convertido para objeto java automaticamente.
+	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDto){ //O @RequestBody faz o JSON ser convertido para objeto java automaticamente. O Valid indica que deve ser validado antes de ser concluida a operação de PUT
+		Categoria obj = service.fromDTO(objDto);
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();//Chamada que pega a URI do novo recurso que foi add no banco
 		return ResponseEntity.created(uri).build();
@@ -47,7 +50,8 @@ public class CategoriaResource {
 	
 	//Configurando o metodo PUT para categoria
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
-	public ResponseEntity<Void> update(@RequestBody Categoria obj, @PathVariable Integer id){ //Como no Put precisamos trazer os dados e depois salvar, utilizamos o RequestBody e PathVariable
+	public ResponseEntity<Void> update(@Valid @RequestBody CategoriaDTO objDto,@PathVariable Integer id){ //Como no Put precisamos trazer os dados e depois salvar, utilizamos o RequestBody e PathVariable
+		Categoria obj = service.fromDTO(objDto);
 		obj.setId(id);
 		obj = service.update(obj);
 		return ResponseEntity.noContent().build();

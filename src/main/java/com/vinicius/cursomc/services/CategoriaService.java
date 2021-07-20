@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.vinicius.cursomc.domain.Categoria;
+import com.vinicius.cursomc.dto.CategoriaDTO;
 import com.vinicius.cursomc.repositories.CategoriaRepository;
 import com.vinicius.cursomc.services.exceptions.DataIntegrityException;
 import com.vinicius.cursomc.services.exceptions.ObjectNotFoundException;
@@ -64,5 +65,10 @@ public class CategoriaService {
 		public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
 			PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);//Objeto que prepara as informações para fazer a consulta e retorne a página de dados.
 			return repo.findAll(pageRequest);
+		}
+		
+		//A partir de um DTO cria um objeto categoria
+		public Categoria fromDTO(CategoriaDTO objDto) {
+			return new Categoria(objDto.getId(), objDto.getNome());
 		}
 }
