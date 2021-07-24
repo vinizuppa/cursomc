@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -33,7 +34,7 @@ public class Cliente implements Serializable{
 	private TipoCliente tipo;
 	
 
-	@OneToMany(mappedBy = "cliente")
+	@OneToMany(mappedBy = "cliente", cascade=CascadeType.ALL)// cascade=CascadeType.ALL serve para indicar que se for apagar o cliente do banco deve ser apagado os endereços dele também
 	private List<Endereco> enderecos = new ArrayList<>();
 	
 	//Definindo que telefones é uma entidade fraca
@@ -43,7 +44,7 @@ public class Cliente implements Serializable{
 	private Set<String> telefones = new HashSet<>();
 	
 	@JsonIgnore
-	@OneToMany(mappedBy="cliente")
+	@OneToMany(mappedBy="cliente") 
 	private List<Pedido> pedidos = new ArrayList<>();
 	
 	public Cliente() {
