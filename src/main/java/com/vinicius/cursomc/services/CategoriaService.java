@@ -38,8 +38,9 @@ public class CategoriaService {
 		
 	//Criando uma operação para	atualizar categoria
 		public Categoria update(Categoria obj) {
-			find(obj.getId()); //Chamando o metodo find para buscar o objeto no banco, e caso o Id já exista, lança uma exceção.
-			return repo.save(obj);
+			Categoria newObj = find(obj.getId()); //Chamando o metodo find para buscar o objeto no banco, e caso o Id já exista, lança uma exceção.
+			updateData(newObj, obj);
+			return repo.save(newObj);
 		}
 		
 	//Criando uma operação para	deletar categoria
@@ -70,5 +71,9 @@ public class CategoriaService {
 		//A partir de um DTO cria um objeto categoria
 		public Categoria fromDTO(CategoriaDTO objDto) {
 			return new Categoria(objDto.getId(), objDto.getNome());
+		}
+		
+		private void updateData(Categoria newObj, Categoria obj) {
+			newObj.setNome(obj.getNome());
 		}
 }
