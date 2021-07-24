@@ -1,5 +1,6 @@
 package com.vinicius.cursomc.resources;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.vinicius.cursomc.domain.Cliente;
 import com.vinicius.cursomc.dto.ClienteDTO;
+import com.vinicius.cursomc.dto.ClienteNewDTO;
 import com.vinicius.cursomc.services.ClienteService;
 
 @RestController
@@ -74,5 +77,14 @@ public class ClienteResource {
 			Page<ClienteDTO> listDto = list.map(obj -> new ClienteDTO(obj));
 			//Retornando que a operação ocorreu com sucesso, retornando o objeto obj que criamos.
 			return ResponseEntity.ok().body(listDto);
+		}
+		
+		//Configurando o metodo POST para cliente
+		@RequestMapping(method=RequestMethod.POST)
+		public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDto){ //O @RequestBody faz o JSON ser convertido para objeto java automaticamente. O Valid indica que deve ser validado antes de ser concluida a operação de PUT
+			Cliente obj = service.fromDTO(objDto);
+			obj = service.insert(obj);
+			URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();//Chamada que pega a URI do novo recurso que foi add no banco
+			return ResponseEntity.created(uri).build();
 		}
 }
