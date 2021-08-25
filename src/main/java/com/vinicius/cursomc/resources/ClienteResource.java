@@ -40,7 +40,7 @@ public class ClienteResource {
 		return ResponseEntity.ok().body(obj);
 	}
 	
-	//Configurando o metodo PUT para categoria
+	//Configurando o metodo PUT para cliente
 		@RequestMapping(value="/{id}", method=RequestMethod.PUT)
 		public ResponseEntity<Void> update(@Valid @RequestBody ClienteDTO objDto,@PathVariable Integer id){ //Como no Put precisamos trazer os dados e depois salvar, utilizamos o RequestBody e PathVariable
 			Cliente obj = service.fromDTO(objDto);
@@ -57,7 +57,7 @@ public class ClienteResource {
 			return ResponseEntity.noContent().build();
 		}	
 		
-		//Configurando para listar todas categorias
+		//Configurando para listar todos clientes
 		@RequestMapping(method=RequestMethod.GET)
 		public ResponseEntity<List<ClienteDTO>> findAll() {
 			List<Cliente> list = service.findAll();
@@ -66,7 +66,7 @@ public class ClienteResource {
 			return ResponseEntity.ok().body(listDto);
 		}
 		
-		//Configurando para listar categorias por paginação
+		//Configurando para listar clientes por paginação
 		@RequestMapping(value = "/page", method=RequestMethod.GET)
 		public ResponseEntity<Page<ClienteDTO>> findPage(
 				@RequestParam(value = "page", defaultValue="0") Integer page, 
